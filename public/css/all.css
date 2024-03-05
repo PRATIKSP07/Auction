@@ -19,12 +19,12 @@ body {
 
 .img1{
    
-    background-image: url(/public/img/login.jpg);
+    background-image: url(/img/register.jpg);
     background-repeat: no-repeat;
 }
 
 .img2{
-    background-image: url(/public/img/register.jpg);
+    background-image: url(/img/login.jpg);
     background-repeat: no-repeat;
 }
 
@@ -135,16 +135,7 @@ input {
     opacity: 100%;
 
   }
-xyz {
-    
-    /* height: 5px; */
-    display: block;
-    border: none;
-    border-bottom: 2px solid #080606;
-    padding: 6px 30px;
-    font-family: Poppins;
-    box-sizing: border-box;
-} 
+
 
 
 
