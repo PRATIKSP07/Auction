@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <title>signup</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet/text" href="utils/css/abc.css">
+
+</head>
+<body class="img2">
+
+<div class="signin" id="signin">
+   <div class="container">
+      <div class="message1">
+            <% if(messages.success_msg) { %>
+                <p><%= messages.success_msg %></p>
+                <% } %>
+      </div>
+      <div class="signin-content">
+         <div class="signin-form">
+             <h2 class="form-title">Sign In</h2>
+             <form method="POST" class="align register-form" id="login-form" action="/users/login">
+                 <div class="form-group align">
+                     <label for="your_name"><i class=" zmdi-account "></i></label>
+                     <input type="text" name="username" id="username" placeholder="Enter Username">
+                    </div>
+                    <div class="form-group align">
+                        <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" name="your_pass" id="your_pass" placeholder="Password">
+                    </div>
+                    <div class="form-group form-button align">
+                        <input type="submit" name="signup" id="signup" class="form-submit" value="Login">
+                    </div>
+                    <div class="form-group align">
+                        <a href="#" class="signup-image-link " onclick="location.href='/users/register';">Create an account</a>
+                    </div>
+            </form>
+            
+         </div>
+        <div class="errormessage">
+            <p>
+                <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+                <%= error.message %><br>
+                <% }) %> <% } %>
+            </p>
+            <p>
+                <% if (messages.error) { %>
+                    <li><%= messages.error %></li>
+                    <% } %>
+            </p>
+        </div>
+        
+        </div>
+      </div>
+   </div>
+</div>
+
+</body>
+</html>
