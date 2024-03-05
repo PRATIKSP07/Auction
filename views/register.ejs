@@ -9,8 +9,25 @@
 <!DOCTYPE html>
    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet type="text/css" href="utils/css/abc.css">
- 
+    <link rel="stylesheet type="text/css" href="/css/all.css">
+   <script type="javascript" differ>
+     
+      var close = document.getElementsByClassName("alert-close");
+      var i;
+    
+      close.onclick = function(){
+
+        // Get the parent of <span class="closebtn"> (<div class="alert">)
+        var div = this.parentElement;
+
+        // Set the opacity of div to 0 (transparent)
+        div.style.opacity = "0";
+        div.style.display="block";
+        // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
+        setTimeout(function(){ div.style.display = "none"; }, 600);
+      }
+}
+</script>
 
 </head>
 <body class="img1" >
@@ -21,19 +38,19 @@
             <h2 class="form-title">Sign Up</h2>
             <form method="post" class="register-form">
                <div class="form-group">
-                  <input type="text" name="name" id="name" placeholder="Your Name">
+                  <input type="text" name="name" id="name" placeholder="Enter Username" required>
                   <label for="name"><i class="zmdi zmdi-account   "></i></label>
                </div> 
                <div class="form-group">
-                  <input type="email" name="email" id="email" placeholder="Your Email">
+                  <input type="email" name="email" id="email" placeholder="Enter  Email ID" required>
                   <label for="email"><i class="zmdi-account "></i></label>
                </div> 
                <div class="form-group">
-                  <input type="password" name="password" id="password" placeholder="Password">  
+                  <input type="password" name="password" id="password" placeholder="Enter the Password" required>  
                   <label for="password"><i class="zmdi-account "></i></label>   
                </div>  
                <div class="form-group">
-                  <input type="password" name="password2" id="password2" placeholder="Confirm your password">
+                  <input type="password" name="password2" id="password2" placeholder="Confirm the password" required>
                   <label for="password2"><i class="zmdi-account "></i></label>
                </div>
                <div class="form-group form-button">
@@ -43,10 +60,13 @@
                    <a href="#" class="signin-image-link" id="signin-image-link" onclick="location.href='/users/login';">I am already member</a>
                </div>   
             </form> 
-            <div id="errormessage">
+            <div class="alert warning">
+               <span class='alert-close' onclick="this.parentElement.style.display='none';">&times;</span>
+               <ul>
                <% if (typeof messages.errors != 'undefined') { %> <% messages.errors.forEach(error => { %>
-                  <%= error.message %><br>
+                 <li> <%= error.message %></li>
                   <% }) %> <% } %>
+               </ul>  
             </div>
          </div>
       </div>

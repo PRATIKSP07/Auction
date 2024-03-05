@@ -1,5 +1,5 @@
 const LocalStrategy = require("passport-local").Strategy;
-const { pool } = require("./dbConfig");
+const pool = require("./dbConfig");
 const bcrypt = require("bcrypt");
 
 function initialize(passport) {
@@ -25,6 +25,7 @@ function initialize(passport) {
               console.log(err);
             }
             if (isMatch) {
+              console.log()
               return done(null, user);
             } else {
               //password is incorrect

@@ -6,16 +6,17 @@ const flash = require('express-flash');
 const passport = require('passport');
 const session = require('express-session');
 const path = require('path');
-
+// const router =  require('./routes/router')
 require("dotenv").config();
 const app = express();
 
 app.use(express.urlencoded({extended : false}));
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
-app.use(express.static(path.join(__dirname, 'utils')));
+app.use(express.static(path.join(__dirname, 'public')));
 const PORT = process.env.PORT || 5000 ;
 const initializePassport = require("./passportConfig");
+const router = require('./routes/router');
 initializePassport(passport);
 // ------------------MIDDLEWARE------------------
 app.use(
@@ -35,7 +36,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-
+// app.use(router);
 
 
 //------------------ROUTES-------------------------
@@ -62,7 +63,7 @@ app.get("/users/register", checkAuthenticated, (req, res) => {
 app.get("/users/login", (req, res) => {
     // flash sets a messages variable. passport sets the error message
     console.log("herererererre")
-    //console.log(req.session.flash.error);
+    console.log(req.session.flash.error);
     res.render("login.ejs");
 
 });
@@ -132,7 +133,7 @@ app.post("/users/login",
         "local",
         { 
         successRedirect : "/users/dashboard",
-        failureRedirect : "/",
+        failureRedirect : "/fail",
         failureFlash : true
         }
     )

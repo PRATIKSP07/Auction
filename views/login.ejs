@@ -8,7 +8,7 @@
     <title>signup</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet/text" href="utils/css/abc.css">
+    <link rel="stylesheet/text" href="/css/all.css">
 
 </head>
 <body class="img2">
@@ -25,12 +25,12 @@
              <h2 class="form-title">Sign In</h2>
              <form method="POST" class="align register-form" id="login-form" action="/users/login">
                  <div class="form-group align">
-                     <label for="your_name"><i class=" zmdi-account "></i></label>
-                     <input type="text" name="username" id="username" placeholder="Enter Username">
+                     <label for="username"><i class=" zmdi-account "></i></label>
+                     <input type="text" name="username" id="username" placeholder="Enter Username" required>
                     </div>
                     <div class="form-group align">
-                        <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                        <input type="password" name="your_pass" id="your_pass" placeholder="Password">
+                        <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" name="password" id="password" placeholder="Password" required>
                     </div>
                     <div class="form-group form-button align">
                         <input type="submit" name="signup" id="signup" class="form-submit" value="Login">
