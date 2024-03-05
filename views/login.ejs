@@ -9,7 +9,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet/text" href="/css/all.css">
-
+    <script type="javascript" differ>
+     
+        var close = document.getElementsByClassName("alert-close");
+        var i;
+      
+        close.onclick = function(){
+  
+          // Get the parent of <span class="closebtn"> (<div class="alert">)
+          var div = this.parentElement;
+  
+          // Set the opacity of div to 0 (transparent)
+          div.style.opacity = "0";
+          div.style.display="block";
+          // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
+          setTimeout(function(){ div.style.display = "none"; }, 600);
+        }
+  
+     </script>
 </head>
 <body class="img2">
 
@@ -41,17 +58,18 @@
             </form>
             
          </div>
-        <div class="errormessage">
-            <p>
+        <div class="alert warning">
+            <span class='alert-close' onclick="this.parentElement.style.display='none';">&times;</span>
+            <ul>
                 <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
                 <%= error.message %><br>
                 <% }) %> <% } %>
-            </p>
-            <p>
+            </ul>
+            <ul>
                 <% if (messages.error) { %>
                     <li><%= messages.error %></li>
                     <% } %>
-            </p>
+            </ul>
         </div>
         
         </div>
