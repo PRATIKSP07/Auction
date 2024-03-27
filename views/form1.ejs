@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/auction23.css">
+    <title>Sell A Product</title>
+
+    <!-- <style>
+        .Sell_Product_Head{
+            color: #f1b607;
+            display: block;
+            margin-left: 550px;
+            margin-top: 5px;
+            padding: 5px;
+        }
+
+        .Sell_Product_Form{
+            width: 50%;
+            margin: 0 25% 0 25% ;
+            padding: 20px; 
+            border: 2px solid black;
+            display: flex;
+            flex-direction: column;
+            justify-content:space-between;
+            /* align-items: center; */
+            
+        }
+
+
+        .Sell_Product_Item{
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .Sell_Product_Item label{
+            color: #333;
+            font-weight:bolder;
+            padding: 10px 0 10px 0;
+        }
+
+        .Sell_Product_Item input{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        #productCategory{
+            width:80% ;
+            height: 25px;
+        }
+
+        .Sell_Product_Item button{
+            width: 100%;
+            margin: 10px;
+            background-color:#fff;
+            color:#333;
+            padding: 12px;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        .Sell_Product_Item button:hover{
+            background-color: #333;
+            color: #f1b607;
+            cursor: pointer;
+        }
+    </style> -->
+
+
+</head>
+<body>
+    
+  
+    <%- include('navbar') -%> 
+    <h1 class="Sell_Product_Head">Sell A Product</h1>
+    <form  id="auctionForm" class="Sell_Product_Form" action="/users/sell" method="post">
+        
+        <div class="Sell_Product_Item">
+            <label for="productName">Product Name:</label><br>
+            <input type="text" id="product_name" name="product_name" required>
+        </div>
+
+        <div class="Sell_Product_Item">
+            <label for="productCategory">Product Category:</label><br>
+            <select id="productCategory" name="productCategory" required>
+                <option value="electronics">Electronics</option>
+                <option value="paintings">paintings</option>
+                <option value="automobile">Automobile</option>
+                <option value="furniture">Furniture</option>
+                <option value="antique">Antique</option>
+                <option value="watch">Watch</option>
+            </select>            
+        </div>
+        
+        <div class="Sell_Product_Item">
+            <label for="product_image">Product Image:</label><br>
+            <input type="file" id="product_image" name="product_image" accept="image/*" required>
+        </div>
+        <input  class = "hidden" type ="text" name="image_src" id = "dest_image"/>
+
+        <div class="Sell_Product_Item">
+            <label for="description">Product Details:</label><br>
+            <textarea  id="description" name="description" rows="4" cols="80" required></textarea>
+        </div>
+
+        <div class="Sell_Product_Item">
+            <label for="start_time">Starting Date:</label><br>
+            <input type="datetime-local" id="start_time" name="start_time" required>
+        </div>
+
+        <div class="Sell_Product_Item">
+            <label for="end_time">Ending Date (less than 1 month from start time):</label><br>
+            <input type="datetime-local" id="end_time" name="end_time" required>
+        </div>
+        
+        <div class="Sell_Product_Item">
+            <label for="base_price">Base Price:</label><br>
+            <input type="number" id="base_price" name="base_price" min="500" step="100" required>
+        </div>
+
+        <div class="Sell_Product_Item">
+            <button type="submit" value="Continue">Continue</button>
+        </div>
+
+    </form>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var startTimeInput = document.getElementById('start_time');
+            const imageChooser = document.querySelector("#product_image");
+            const destImage = document.querySelector("#dest_image");
+            imageChooser.addEventListener("change",()=> {
+            const file = imageChooser.files[0];
+                console.log(file);
+                const fileReader = new FileReader();
+                fileReader.readAsDataURL(file);
+                fileReader.addEventListener("load",function (){
+                    destImage.value = this.result;
+                    console.log(this.result);
+                }); 
+            });
+     
+            function handleAddImage(){
+             const file = imageChooser.files[0];
+             console.log(file);
+             const fileReader = new FileReader();
+             fileReader.readAsDataURL(file);
+             fileReader.addEventListener("load",function (){
+                 destImage.value = this.result;
+                 console.log(this.result);
+             });
+            }
+            var endTimeInput = document.getElementById('end_time');
+    
+            startTimeInput.addEventListener('change', function() {
+                updateEndTime();
+            });
+    
+            endTimeInput.addEventListener('change', function() {
+                validateEndTime();
+            });
+    
+            function updateEndTime() {
+                var startTime = new Date(startTimeInput.value);
+                var maxEndTime = new Date(startTime.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+    
+                // Set max end time to 5 days from start time
+                var maxEndTimeString = maxEndTime.toISOString().slice(0, 16);
+                endTimeInput.max = maxEndTimeString;
+    
+                // Validate end time to ensure it's not earlier than start time
+                validateEndTime();
+            }
+    
+            function validateEndTime() {
+                var startTime = new Date(startTimeInput.value);
+                var endTime = new Date(endTimeInput.value);
+    
+                if (endTime <= startTime) {
+                    alert("End time must be later than start time.");
+                    endTimeInput.value = ""; // Reset end time input
+                } else {
+                    var maxEndTime = new Date(startTime.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+    
+                    if (endTime > maxEndTime) {
+                        alert("End time cannot be more than 5 days from start time.");
+                        endTimeInput.value = maxEndTime.toISOString().slice(0, 16); // Reset end time input to maximum allowed
+                    }
+                }
+            }
+    
+            // Initialize end time based on default start time
+            updateEndTime();
+        });
+    </script>
+
+</body>
+</html>

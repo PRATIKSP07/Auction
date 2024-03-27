@@ -1,0 +1,466 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+header {
+    background-color: #333;
+    color: #f1b607;
+    padding: 10px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+}
+h1 {
+    margin: 0;
+}
+.home-title{
+    color: #f1b607;
+}
+/*
+.CountDown {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px;
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+  */
+/* CSS for the remaining time display */
+/* CSS for the remaining time display */
+.CountDown {
+    font-size: 16px; /* Set the font size */
+    font-weight: bold;
+    color: #1f0202; /* Set the text color to white */
+    margin-top: 20px; /* Add some top margin for spacing */
+    padding: 10px; /* Add padding to the container box */
+    border-radius: 5px; /* Add rounded corners to the container box */
+    background-color: #f3c336d0; /* Set a blue background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* CSS to style individual components (days, hours, minutes, seconds) */
+.CountDown span {
+    font-size: 14px; /* Set the font size for individual components */
+    font-weight: normal; /* Set the font weight to normal */
+    margin-right: 5px; /* Add space between components */
+}
+
+/* CSS to style labels */
+.CountDown label {
+    font-size: 12px; /* Set the font size for labels */
+    font-weight: normal; /* Set the font weight to normal */
+    color: #e02323; /* Set the text color for labels to white */
+}
+.item-name {
+    font-size: 1.2em; /* Adjusts the font size */
+    font-weight: 600; /* Semi-bold for a lighter touch */
+    color: #4a4a4a; /* A softer shade of grey */
+    text-transform: uppercase; /* Only the first letter of each word is capitalized */
+    margin-bottom: 10px; /* Adds space below the item names */
+    padding-bottom: 5px; /* Adds padding to give space above the border */
+    
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+  }
+  
+  .item-name:hover {
+    color: #5cb85c; /* Changes text color on hover */
+    border-color: #4a4a4a; /* Changes border color on hover */
+  }
+  
+nav {
+    height: 25px;
+    overflow: hidden;
+    background-color: #fff;
+    border: 2px solid #333;
+    padding:0 5px 0 5px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between ;
+}
+
+
+
+nav a {
+    height:100% ;
+    width: 25%;
+    
+    background-color:#f5f5f5 ;
+    color: #333;
+    display: block;
+    text-decoration: none;
+}
+nav a:hover {
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #333;
+    color: #f1b607;
+}
+.container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.auction-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+    display: flex;
+    
+    align-items: center;
+}
+
+img{
+    height: 500px;
+    width: 1000px;
+    background-size: contain;
+}
+
+.auction-item:last-child {
+    border-bottom: none;
+}
+.auction-item img {
+    max-width: 350px;
+    max-height: 200px;
+}
+#search-bar {
+    margin-top: 10px;
+    padding: 5px;
+    width: 300px;
+   
+}
+#search-btn {
+    padding: 5px 10px;
+    background-color:#fff;
+    color:#333;
+    border: 2px solid #333;
+    cursor: pointer;
+}
+#search-btn:hover{
+   cursor: pointer;
+    color: #f1b607;
+}
+.btn {
+    padding: 5px 10px;
+    background-color: #fff;
+    color:#333;
+    border: 2px solid #333;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: #333;
+    color: #f1b607;
+}
+
+.head{
+    display: flex;
+}
+.head2{
+    color: #fff;   
+}
+
+
+
+
+/* * Categories CSS   * */
+.category-title{
+    color: #f1b607;
+    display: block;
+    margin-left: 550px;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.categories-div{
+    height: 800px;
+    /* border: 2px solid #333; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items:center ;
+}
+
+
+.category {
+    height: 50%;
+    width: 25%;
+    display: inline-block;
+    margin: 20px;
+    text-align: center;
+    border: 2px solid #333;
+}
+.category img {
+    width: 210px;
+    height: 210px;
+}
+.category-name {
+    padding: 25px;
+    font-size: 20px;
+    margin-top: 10px;
+}
+.product-btn {
+    background-color:#f5f5f5 ;
+    color: #333;
+    margin-top: 4px;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-btn:hover{
+    color: #f1b607;
+    background-color: #333;
+}
+
+
+
+
+
+/* Selling Form CSS */
+.hidden{
+    display: none;
+}
+.Sell_Product_Head{
+    color: #f1b607;
+    display: block;
+    margin-left: 550px;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.Sell_Product_Form{
+    width: 50%;
+    margin: 0 25% 0 25% ;
+    padding: 20px; 
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    /* align-items: center; */
+    
+}
+
+
+.Sell_Product_Item{
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.Sell_Product_Item label{
+    color: #333;
+    font-weight:bolder;
+    padding: 10px 0 10px 0;
+}
+
+.Sell_Product_Item input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#productCategory{
+    width:80% ;
+    height: 25px;
+}
+
+.Sell_Product_Item button{
+    width: 100%;
+    margin: 10px;
+    background-color:#fff;
+    color:#333;
+    padding: 12px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.Sell_Product_Item button:hover{
+    background-color: #333;
+    color: #f1b607;
+    cursor: pointer;
+}
+
+
+
+/* My Account */
+
+.myAccount-icon{
+    height: 100px;
+    /* width: 100%; */
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+
+.myAccount-icon i{
+    font-size: 100px;
+    color: rgba(241, 182, 7, 1);
+    
+    /* background-color: #333;
+    color: #f1b607;
+    border-radius: 40%;
+    padding: 10px; */
+    
+}
+
+#name{
+    width: 50%;
+    margin: 10px 25% 10px 25%;
+    text-align: center;
+    color: #f1b607;
+}
+
+.profile-container{
+    display: flex;
+    margin: 10px 25px 10px 25px;
+    flex-direction: column;
+}
+
+.profile-detail{
+    font-size: 20px;
+    font-weight: 100;
+}
+
+.profile-detail-title{
+    color: #f1b607;
+}
+
+.profile-detail span{
+    font-size: 20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.profile-sell-buy{
+    width: 100%;
+    display: flex;
+    justify-content:space-between ;
+}
+
+.profile-sellForm button, .profile-product button{
+    width: 500px;
+    height: 40px;
+    color: #333;
+    background-color: #f5f5f5;
+    border-radius: 50px;
+    box-sizing: border-box;
+    margin: 10px 25px 10px 25px;
+}
+
+.profile-sellForm  button:hover, .profile-product button:hover{
+    cursor: pointer;
+    color: #f1b607;
+    background-color: #333;
+}
+
+.profile-list-title{
+    color: #f1b607;
+    margin: 10px;
+}
+
+.profile-list{
+    margin: 10px 25px 10px 25px;
+    border: 2px solid black;
+    
+}
+
+.profile-list div{
+    margin: 10px;
+}
+
+.profile-list-item button{
+    width: 200px;
+}
+
+.profile-contact{
+    margin: 10px 25px 10px 25px;
+    font-size: 20px;
+    font-weight: 100;
+}
+
+.profile-contact-title{
+    color: #f1b607;
+}
+
+.profile-contact span{
+    font-size: 20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.profile-contact a:hover{
+    cursor: pointer;
+    color: #f1b607;
+}
+
+
+/* Detail Page */
+
+.detail-title{
+    color: #f1b607;
+    margin: 5px 30% 5px 40%;
+}
+.detail{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* text-align: center; */
+}
+
+.detail-info{
+    margin: 10px 0 0 13%;
+    
+}
+
+.detail-img{
+    height: 500px;
+    width: 100%;
+}
+
+.detail-img-div{
+    padding: 10px;
+    height: 500px;
+    width: 40%;
+    border: 1px solid #333;
+}
+
+.detail-container{
+    height: 500px;
+    width: 40%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #333;
+    margin: 10px 0 10px 0;
+}
+
+.detail-container span{
+    font-weight: bolder;
+}
+
+.detail-name{
+    align-self: center;
+}
+
+.detail-remaining-time{
+    margin: 5px;
+    text-align: center;
+    border: 1px solid #333;
+    border-radius: 10px;
+}

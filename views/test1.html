@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Product</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    height: 100vh; /* Viewport height to fill the screen */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.container {
+    display: flex;
+    border: 2px solid black;
+    width: 800px;
+    height: 400px;
+}
+
+.product-info {
+    flex-basis: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.product-image {
+    flex-basis: 50%;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+button {
+    background-color: red; 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="product-info">
+      <h1>Sample Product</h1>
+      <p>Sample text. Lorem ipsum dolor sit amet, consectetur adipiscing elit nullam nunc justo sagittis suscipit ultrices.</p>
+      <p>$9.95</p>
+      <button type="button">ADD TO CART</button>  
+    </div>
+
+    <div class="product-image">
+       <img src="https://images02.nicepage.com/c461c07a441a5d220e8feb1a/00c8a2c16fe659119dc6a168/dgrt.jpg">
+    </div>
+
+</div>
+
+</body>
+</html>

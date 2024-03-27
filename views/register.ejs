@@ -8,15 +8,15 @@
     <title>signup</title>
 <!DOCTYPE html>
    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet type="text/css" href="/css/all.css">
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> -->
+   <link rel="stylesheet type="text" href="/css/org.css">
    <script type="javascript" differ>
      
       var close = document.getElementsByClassName("alert-close");
       var i;
-    
+     
       close.onclick = function(){
-
+         console.log("eifueuhehuuhhuhuhuhhuhuhuhuhuhuhhuhuu");
         // Get the parent of <span class="closebtn"> (<div class="alert">)
         var div = this.parentElement;
 
@@ -26,8 +26,8 @@
         // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
         setTimeout(function(){ div.style.display = "none"; }, 600);
       }
-}
-</script>
+
+   </script>
 
 </head>
 <body class="img1" >
@@ -61,9 +61,9 @@
                </div>   
             </form> 
             <div class="alert warning">
-               <span class='alert-close' onclick="this.parentElement.style.display='none';">&times;</span>
+               <span class='alert close' onclick="this.parentElement.style.display='block';">&times;</span>
                <ul>
-               <% if (typeof messages.errors != 'undefined') { %> <% messages.errors.forEach(error => { %>
+               <% if (typeof messages.errors != 'undefined') {  %> <% messages.errors.forEach(error => { %>
                  <li> <%= error.message %></li>
                   <% }) %> <% } %>
                </ul>  

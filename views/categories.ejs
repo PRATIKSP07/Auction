@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/auction23.css">
+    <title>Categories</title>
+     
+</head>
+<body class="categories-body">
+    <%- include('navbar') -%>
+    <h1 class="category-title">Categories</h1>
+    <div class="categories-div">
+       <div class="category" onclick="location.href='/category?type=automobile'" >
+           <div class="category-name">Automobile</div>
+            <img src="/img/cars.jpg"  alt="Automobile">
+            
+        </div>
+        <div class="category" onclick="location.href='/category?type=electronics'">
+            <div class="category-name">Electronics</div>
+            <img src="/img/electronics.jpg"  alt="Electronics">
+            
+        </div>
+        <div class="category" onclick="location.href='/category?type=furniture>'">
+            <div class="category-name">Furniture</div>
+            <img src="/img/furniture.jpg"  alt="Furniture">
+            
+        </div>
+    
+        <div class="category"    onclick="location.href='/category?type=watch'">
+            <div class="category-name">Watch</div>
+            <img src="/img/watch.jpg" alt="Watch">
+        </div>
+        <div class="category" onclick="location.href='/category?type=paintings'">
+            <div class="category-name">Paintings</div>
+            <img src="/img/painting.jpg" alt="Paintings">
+        </div>
+        <div class="category" onclick="location.href='/category?type=antique'">
+            <div class="category-name">Antique</div>
+            <img src="/img/antique.jpg" alt="Antique">
+            
+        </div>
+    </div>
+    
+</body>
+</html>

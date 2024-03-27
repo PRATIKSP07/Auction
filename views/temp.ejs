@@ -1,0 +1,29 @@
+<% if(products.length > 0){  %>
+    <% for(const product of products) { %>
+        <div class="auction-item">
+            <% if(product.prodImg.length){ %>
+            <img src="<%= product.prodImg %>" alt="<%= product.prodName%>"/>
+            <div>
+                <h3><%= product.prodName%></h3>
+                <div class="CountDown"> Remaining Time : <%= product.endTime %>  </div>
+                <p>Highest Bid : <%= product.highestBid %> </p>                    
+                <button class="btn" onclick="location.href='/products?id=<%= product.auctionId%>'" > Bid Now</button>
+            </div>
+        </div>
+    <% } %>
+<%}%>
+
+
+
+
+
+<% if(products.length > 0){  %>
+    <% for(const product of products) { %>
+            <% console.log(product)%>
+        
+    <% } %>
+<%}%>
+
+
+
+

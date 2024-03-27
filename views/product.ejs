@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <link rel="stylesheet" href="/css/auction23.css">
+</head>
+<body>
+    <%- include('navbar') -%> 
+    <div class="detail">
+        <% console.log("herrrrrrrrrrrrrr",product)%>
+        <div class="detail-img-div">
+            <img class="detail-img" src="<%= product.prodimg %>" alt="<%= product.prodname %>">
+        </div>
+        
+        <div class="detail-container">
+            <h2 class="detail-name"><%= product.prodname %></h2>
+            <p><%= product.description %></p>
+            <h5 class="detail-current-bid"><span>Highest Bid :</span> <%= product.highestbid %></h5>
+            <div class="detail-amount-div">    
+                <label for="detail-amount"><span>Place Bid Amount</span>:</label>
+                <form method ="post" action="/products?id=<%= product.auctionid%>" >
+                <input type="number" id="detail-amount" name="bidAmount" min="<%=product.highestbid%>" step="100" required>
+            </div>
+                <input type ="submit" value="Place Bid">
+            </form>
+                <div class="CountDown" id="remaining-time-<%= product.auctionid %>">
+                    <span id="days-<%= product.auctionid %>"></span> <label>Days</label> :
+                    <span id="hours-<%= product.auctionid %>"></span> <label>Hrs</label> :
+                    <span id="minutes-<%= product.auctionid %>"></span> <label>Min</label> :
+                    <span id="seconds-<%= product.auctionid %>"></span> <label>Sec</label>
+                </div>
+            <script>
+                      
+                const endTime<%= product.auctionid %> = new Date('<%= product.endtime %>');
+
+                
+                function updateRemainingTime<%= product.auctionid %>() {
+                    const daysElement = document.getElementById('days-<%= product.auctionid %>');
+                    const hoursElement = document.getElementById('hours-<%= product.auctionid %>');
+                    const minutesElement = document.getElementById('minutes-<%= product.auctionid %>');
+                    const secondsElement = document.getElementById('seconds-<%= product.auctionid %>');
+
+                    const endTime<%= product.auctionid %> = new Date('<%= product.endtime %>');
+                    const now = new Date();
+                    let remainingTime = endTime<%= product.auctionid %> - now;
+                    //console.log(remainingTime);
+                    if (remainingTime < 0) {
+                        remainingTime = 0;
+                    }
+
+                    const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                    daysElement.textContent = `${days}`;
+                    hoursElement.textContent = `${hours}`;
+                    minutesElement.textContent = `${minutes}`;
+                    secondsElement.textContent = `${seconds}`;
+                }
+                // Update remaining time every second
+                setInterval(updateRemainingTime<%= product.auctionid %>, 1000);
+                // Initial call to update time immediately when page loads
+                updateRemainingTime<%= product.auctionid %>(); 
+           
+            </script>
+        </div>
+    </div>
+    
+
+   </div>
+
+     
+
+</body></html>

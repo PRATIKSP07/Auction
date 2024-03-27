@@ -7,9 +7,12 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.18.0",
     "flash": "^1.1.0",
+    "node-cron": "^3.0.3",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5"
   },
   "name": "dbexamples",
   "version": "1.0.0",
@@ -19,9 +22,7 @@
     "nodemon": "^3.0.3"
   },
   "scripts": {
-    
     "dev": "nodemon server.js"
-   
   },
   "keywords": [],
   "author": "",

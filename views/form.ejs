@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auction Form</title>
+<style>
+    /* Paste the CSS styles here */
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="file"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="datetime-local"],
+input[type="number"] {
+    width: calc(50% - 5px);
+}
+
+button[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.error {
+    color: red;
+    margin-top: 5px;
+}
+
+    </style>
+</head>
+<body>
+
+<h2>Auction Form</h2>
+
+<form id="auctionForm" action="/users/sell" method="POST"  class="container">
+    <label for="product_name">Product Name:</label>
+    <input type="text" id="product_name" name="product_name" required><br>
+
+    <label for="product_image">Product Image:</label>
+    <input type="file" id="product_image" name="product_image" accept="image/*" required><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" required></textarea><br>
+
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+        <option value="electronics">Electronics</option>
+        <option value="clothing">Clothing</option>
+        <!-- Add more options as needed -->
+    </select><br>
+
+    <label for="start_time">Start Time:</label>
+    <input type="datetime-local" id="start_time" name="start_time" value="" required><br>
+
+    <label for="end_time">End Time (less than 5 days from start time):</label>
+    <input type="datetime-local" id="end_time" name="end_time" required><br>
+
+    <label for="base_price">Base Price:</label>
+    <input type="number" id="base_price" name="base_price" required><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var startTimeInput = document.getElementById('start_time');
+        var endTimeInput = document.getElementById('end_time');
+
+        startTimeInput.addEventListener('change', function() {
+            updateEndTime();
+        });
+
+        endTimeInput.addEventListener('change', function() {
+            validateEndTime();
+        });
+
+        function updateEndTime() {
+            var startTime = new Date(startTimeInput.value);
+            var maxEndTime = new Date(startTime.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+
+            // Set max end time to 5 days from start time
+            var maxEndTimeString = maxEndTime.toISOString().slice(0, 16);
+            endTimeInput.max = maxEndTimeString;
+
+            // Validate end time to ensure it's not earlier than start time
+            validateEndTime();
+        }
+
+        function validateEndTime() {
+            var startTime = new Date(startTimeInput.value);
+            var endTime = new Date(endTimeInput.value);
+
+            if (endTime <= startTime) {
+                alert("End time must be later than start time.");
+                endTimeInput.value = ""; // Reset end time input
+            } else {
+                var maxEndTime = new Date(startTime.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+
+                if (endTime > maxEndTime) {
+                    alert("End time cannot be more than 5 days from start time.");
+                    endTimeInput.value = maxEndTime.toISOString().slice(0, 16); // Reset end time input to maximum allowed
+                }
+            }
+        }
+
+        // Initialize end time based on default start time
+        updateEndTime();
+    });
+</script>
+
+</body>
+</html>
