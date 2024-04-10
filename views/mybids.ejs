@@ -1,0 +1,13 @@
+<h2 class="profile-list-title">My Bids</h2>
+<% console.log(myBids.length) %>
+            <% if(myBids.length > 0){ %>
+                <% for(const product of myBids) { %>
+                    <div class="auction-item">
+                       Your Bid <%= product.highestbid%>
+                       <br>
+                       Auction ID <%= product.auctionid%>
+                    </div>
+                <% } %>
+            <% } else {%>
+                <h4> You Have No Bids. </h4>
+            <% } %>

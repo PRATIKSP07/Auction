@@ -20,31 +20,13 @@ const initializePassport = require("./passportConfig");
 const router = require('./routes/router');
 initializePassport(passport);
 const io = require('socket.io')(server);
-//-------------------WEB SOCKET------------------
-/* 
-io.on('connection', (socket) => {
-    console.log('A user connected');
-  
-    // Handle bid event
-    socket.on('bid', async (data) => {
-      try {
-        // Update highest bid in the database
-        await pool.query(`Insert into bids (userId,auctionId,amount) values ($1,$2,$3)`,[data.userId,data.auctionId,data.bidAmount]);
-        await pool.query('UPDATE Auctions SET highestBid = $1 WHERE auctionId = $2', [data.bidAmount, data.auctionId]);
-        // Broadcast the new highest bid to all connected clients
-        io.emit('newHighestBid', { itemId: data.auctionId, highestBid: data.bidAmount });
-      } catch (error) {
-        console.error('Error updating highest bid:', error);
-      }
-    });
-  
-    socket.on('disconnect', () => {
-      console.log('User disconnected');
-    });
-  }); */
+//--------------------WEB SOCKET --------------------
+io.on('connection',(socket) => {
+    console.log("user connected");
 
-  io.on('connection',(socket) => {
-    console.log("in server socket");
+});
+io.on('disconnect',(socket)=>{
+    console.log("userdisconnected");
 });
 // ------------------MIDDLEWARE------------------
 app.use(
@@ -112,14 +94,25 @@ app.get("/",async (req,res)=>{
     res.render("home1",{ products : products, msg : msg,msg1 : msg1 });
 })
 app.get("/users/profile",checkNotAuthenticated,async (req,res)=>{
-    let myProducts = [];
+    let myProducts = [],myBids = [];
     try {
        
         const result = await pool.query(`select * from Auctions where sellerId = $1  ORDER BY endTime ; `,[req.user.id]);
 
         if (result.rowCount > 0) {
-        myProducts = result.rows;
+            myProducts = result.rows;
         }
+        const result1 = await pool.query(`  
+            SELECT auctionid, userid, MAX(amount) AS highestBid
+            FROM Bids
+            WHERE userid = $1
+            GROUP BY auctionid, userid;`
+            ,[req.user.id]
+        );
+        if (result1.rowCount > 0) {
+            myBids = result1.rows;
+        }
+        
 
     }
     catch (error) {
@@ -127,29 +120,13 @@ app.get("/users/profile",checkNotAuthenticated,async (req,res)=>{
     }
     
     console.log("in myproducts",myProducts);
-    res.render("profile",{myProducts : myProducts,user : req.user});
-})
-/* app.get("/users/dashboard", checkNotAuthenticated,async (req, res) => {
-    console.log(req.isAuthenticated());
-    let myProducts = [];
-    try {
-       
-        const result = await pool.query(`select * from Auctions where sellerId = $1  ORDER BY endTime  DES `,[req.session.user.id]);
-        console.log(result);
-        console.log("in here in try block");
-        if (result.rowCount > 0) {
-        myProducts = result.rows;
-        }
-
-    }
-    catch (error) {
-        throw(error);
-    }
-    res.render("dashboard", { user: req.user.name });
-}); */
+    res.render("profile",{myProducts : myProducts,user : req.user, myBids : myBids });
+});
 app.get("/products",checkNotAuthenticated,async (req,res) => {
   let params = req.query;
   let prodId;
+  const msg = req.session.msg ;
+  req.session.msg = "";
   if( typeof params.id == 'undefined' )
   {
     res.send("ERRRORR");
@@ -161,29 +138,88 @@ app.get("/products",checkNotAuthenticated,async (req,res) => {
     product_details = result.rows[0];
     console.log("results rows",result.rows);
     console.log(product_details);
-    res.render("product",{ product : product_details});
+    console.log(msg,"BACKEND")
+    // console.log(res.msg,"BACKEND")
+    res.render("product",{ product : product_details ,userId : req.user.id,msg : msg });
   }
 
 });
-app.post("/products",checkNotAuthenticated,(req,res) => {
+app.post("/products",checkNotAuthenticated, async (req,res) => {
     const { bidAmount }=req.body ;
-  //  console.log(bidAmount);
+    let msg = "";
     let params = req.query;
     let prodId = parseInt(params.id);
-   // console.log(bidAmount,req.query);
-    //console.log("asdfghjklsdfghjkzxcvbnm")
-    try {
-        // Update highest bid in the database
-        pool.query(`Insert into bids (userId,auctionId,amount) values ($1,$2,$3)`,[parseInt(req.user.id),prodId,bidAmount]);
-        pool.query('UPDATE Auctions SET highestBid = $1 WHERE auctionId = $2', [bidAmount, prodId]);
-        // Broadcast the new highest bid to all connected clients
-        
-        io.emit('newHighestBid', { auctionId: prodId, highestBid: bidAmount });
-    } 
-    catch (error) {
-        console.error('Error updating highest bid:', error);
+    const  result = await pool.query(`Select highestBid from Auctions where auctionId = $1`,[prodId]);
+    console.log(result.rows)
+    const highestbid = result.rows[0].highestbid;
+    console.log(highestbid)
+    if(bidAmount > highestbid){
+        try {
+            // Update highest bid in the database
+            await pool.query(`Insert into bids (userId,auctionId,amount) values ($1,$2,$3)`,[parseInt(req.user.id),prodId,bidAmount]);
+            await pool.query('UPDATE Auctions SET highestBid = $1 WHERE auctionId = $2', [bidAmount, prodId]);
+            // Broadcast the new highest bid to all connected clients
+            
+            io.emit('newHighestBid', { auctionId: prodId, highestBid: bidAmount });
+            msg = "Bid Placed Succesfully";
+            console.log(msg);
+        } 
+        catch (error) {
+            console.error('Error updating highest bid:', error);
+            msg = "Internal Error. Bid NOT PLACED";
+            console.log(msg);
+        }
     }
+    else{
+        msg = "Server Error.... Bid NOT PLACED.  Please Check The Current Highest Bid Amount";
+        console.log(msg)
+    }
+    req.session.msg = msg;
+
+    //console.log(res.locals)
+    res.redirect(req.url)
+    
 });
+app.get("/search", async(req,res)=> {
+    let query = req.query.q?.trim().toLowerCase();
+    let category_flag = false;
+    let products;
+    console.log("The query is",query);
+    function isCategory(query)
+    {
+        let categories = ['electronics','paintings','automobile','furniture','antique','watch','watches']
+        if( categories.includes(query) )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    if(isCategory(query))
+    {
+        category_flag = true;
+        console.log(category_flag);
+    }
+    console.log(category_flag);
+    try {
+        const result = await pool.query("Select * from searchauctions($1,$2);",[category_flag,query]);
+        console.log(result);
+        if(result.rowCount > 0)
+        {
+            products = result.rows;
+            //console.log("seraching for products",products)
+        }
+        else
+        {
+           products = []; 
+        }
+    } catch (error) {
+        throw(error);
+    }
+
+    res.render("home1",{products : products , query : query,msg : "", msg1 : ""})
+    
+})
 app.get("/category", async (req,res) => {
    
     let params = req.query;
@@ -241,12 +277,8 @@ app.get("/users/register", checkAuthenticated, (req, res) => {
 
 app.get("/users/login",checkAuthenticated, (req, res) => {
     // flash sets a messages variable. passport sets the error message
-    console.log("herererererre")
+
     console.log(req.session);
-    // if(req.session.flash.error)
-    // {
-    //     console.log(req.session.flash.error);
-    // }
     res.render("login.ejs");
 
 });
@@ -324,10 +356,13 @@ app.post("/users/login",
  
 app.get("/users/sell", checkNotAuthenticated, (req, res) => {
    console.log("in get users/sell");
-   res.render("form1.ejs");
+   const msg = req.session.msg;
+   console.log(msg);
+   res.render("form1.ejs",{msg : msg});
 });
 app.post("/users/sell",checkNotAuthenticated, (req, res) => {
     console.log(req.body);
+    let msg ="";
     let {
         product_name ,
         image_src,
@@ -336,41 +371,37 @@ app.post("/users/sell",checkNotAuthenticated, (req, res) => {
         start_time,
         end_time,
         base_price 
-        } = req.body;
-    console.log( product_name ,
+    } = req.body;
+   /*  console.log( product_name ,
         image_src,
         description,
         productCategory,
         start_time,
         end_time,
-        base_price );
-        console.log( req.session.passport.user);
+        base_price ); */
+    console.log( req.session.passport.user);
     
-   /*  pool.query(`SELECT * FROM Auctions;`,(err,results)=>{
-        if(err)
-        {
-            throw (err);
-        }
-        else
-        {
-            console.log("here");
-            console.log(results.rows);
-        }
-    });
- */
+  
     pool.query(
         `INSERT INTO Auctions (sellerId,prodName,prodImg,description,category,startTime,endTime,basePrice,prodStatus,auctionStatus) 
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);`,
         [req.session.passport.user,product_name ,image_src,description,productCategory,start_time,end_time,base_price,"unsold","pending"],
         (err,results)=>{
-             if(err){
-                console.log("here2")
+            if(err){
+                msg = "INTERNAL ERROR";
+                console.log(msg);
                 throw (err);
                             
-                }
-                console.log(results.rows);
+            }
+            else{
+
+                msg = "Product ADDED SUCESSFULLY";
+                console.log(msg);
+            }
         }
-    )
+    );
+    req.session.msg = msg;
+    res.redirect("/users/sell");
 });
 
 function checkAuthenticated(req, res, next) {
@@ -389,10 +420,10 @@ function checkNotAuthenticated(req, res, next) {
     }
     res.redirect("/users/login");
 }
-  
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+server.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
     
 });
+
   

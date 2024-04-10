@@ -22,7 +22,7 @@
             border: 2px solid black;
             display: flex;
             flex-direction: column;
-            justify-content:space-between;
+            justify-content:space-between; 
             /* align-items: center; */
             
         }
@@ -113,7 +113,7 @@
         </div>
 
         <div class="Sell_Product_Item">
-            <label for="end_time">Ending Date (less than 1 month from start time):</label><br>
+            <label for="end_time">Ending Date (Duration of 5 days):</label><br>
             <input type="datetime-local" id="end_time" name="end_time" required>
         </div>
         
@@ -197,6 +197,10 @@
             // Initialize end time based on default start time
             updateEndTime();
         });
+        <% if( msg )  { %> 
+                <%console.log(msg,"FRONTEND")%>
+               alert( "<%= msg %>");
+            <% } %>
     </script>
 
 </body>

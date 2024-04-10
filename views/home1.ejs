@@ -1,24 +1,28 @@
-<html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   
-    <link href="https://fonts.googleapis.com/css2?family=Cutive&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Online Auction TYBCS</title>
-    <link rel="stylesheet" href="/css/auction23.css">
-   
-</head>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+        <link href="https://fonts.googleapis.com/css2?family=Cutive&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>Online Auction TYBCS</title>
+        <link rel="stylesheet" href="/css/auction23.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    
+    </head>
 <body>
 
      <%- include('navbar') -%>
     <div class="container">
         <h2 class="home-title">Featured Items</h2>
+        
         <% if(msg != "" || msg1 != "") { %> 
             <h4> <%= msg || msg1 %> </h4>
         <% } %>
+       
         <% if(products.length > 0){ %>
             <% for(const product of products) { %>
                 <div class="auction-item">
@@ -27,6 +31,9 @@
                     <% } %>
                     <div>
                         <p class="item-name"><%= product.prodname%></p>
+                        Base Price : $<%= product.baseprice %>
+                        
+                        <div id="detail-<%= product.auctionid %>" ></div>
                         <!-- <div class="CountDown" id="remaining-time-<%= product.auctionid %>"> Remaining Time : <%= product.endtime %>  </div> -->
                         <div class="CountDown" id="remaining-time-<%= product.auctionid %>">
                             <span id="days-<%= product.auctionid %>"></span> <label>Days</label> :
@@ -34,10 +41,10 @@
                             <span id="minutes-<%= product.auctionid %>"></span> <label>Min</label> :
                             <span id="seconds-<%= product.auctionid %>"></span> <label>Sec</label>
                         </div>
-                        <p>Highest Bid : <span id = "highestbid-<%= product.auctionid%>"><%= product.highestbid %> </span></p>
-                        <button class="btn" onclick="location.href='/products?id=<%= product.auctionid%>'" > Bid Now</button>
+                        <p>Highest Bid : <span id = "highestbid-<%= product.auctionid%>">$<%= product.highestbid %> </span></p>
+                        <button class="btn" onclick="location.href='/products?id=<%= product.auctionid%>'" id="place-bid-<%=product.auctionid%>" > Bid Now</button>
                     </div>
-                    <script  >
+                    <script>
                         
                         const endTime<%= product.auctionid %> = new Date('<%= product.endtime %>');
         
@@ -47,26 +54,49 @@
                             const hoursElement = document.getElementById('hours-<%= product.auctionid %>');
                             const minutesElement = document.getElementById('minutes-<%= product.auctionid %>');
                             const secondsElement = document.getElementById('seconds-<%= product.auctionid %>');
-
+                            const CountDown = document.getElementById("remaining-time-<%= product.auctionid %>");
+                            const text = document.getElementById("detail-<%= product.auctionid %>");
                             const endTime<%= product.auctionid %> = new Date('<%= product.endtime %>');
+                            const startTime = new Date('<%= product.starttime%>');
                             const now = new Date();
+                            const bidButton = document.getElementById("place-bid-<%=product.auctionid%>");
+                            let days 
+                            let hours 
+                            let minutes,seconds;
                             let remainingTime = endTime<%= product.auctionid %> - now;
 
                             if (remainingTime < 0) {
                                 remainingTime = 0;
+                                CountDown.innerHTML = "Auction Ended";
+                                return;
                             }
-
-                            const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-                            const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-                            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
+                            if (now > startTime ){
+                                text.innerText = " Ends In ";
+                                days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                                hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                                seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+    
+                            }
+                            else{
+                                const toStartTime = startTime - now ;
+                                text.innerText = "Starts In ";
+                                bidButton.disabled = true;
+                                bidButton.className = "btn-disabled";
+                                days = Math.floor(toStartTime / (1000 * 60 * 60 * 24));
+                                hours = Math.floor((toStartTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                minutes = Math.floor((toStartTime % (1000 * 60 * 60)) / (1000 * 60));
+                                seconds = Math.floor((toStartTime % (1000 * 60)) / 1000);
+        
+                            }
+                                
                             daysElement.textContent = `${days}`;
                             hoursElement.textContent = `${hours}`;
                             minutesElement.textContent = `${minutes}`;
                             secondsElement.textContent = `${seconds}`;
                         }
                         // Update remaining time every second
+                        
                         setInterval(updateRemainingTime<%= product.auctionid %>, 1000);
                         // Initial call to update time immediately when page loads
                         updateRemainingTime<%= product.auctionid %>(); 
@@ -78,20 +108,20 @@
         
 
     </div>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script> -->
-    <script  src="\socket.io-client">
-        const socket = io();
-        console.log("in here");
-        // Listen for new highest bid updates
-        socket.on('newHighestBid', (data) => {
+    <script >
+        var socket = io();
 
-            // Update the UI with the new highest bid
-            console.log(data)
-          /*   const itemElement = document.getElementById(`highestbid-${data.auctionId}`);
-            if (itemElement) {
-                itemElement.textContent = `${data.highestBid}`;
-            } */
+        socket.on('newHighestBid', (data) => {
+            if(data)
+            {
+                const highesttBidElement = document.getElementById(`highestbid-${data.auctionId}`);
+                if (highesttBidElement) {
+                    highesttBidElement.textContent = data.highestBid;
+                }
+            }
         });
     </script>
 
-</body></html>
+</body>
+
+</html>

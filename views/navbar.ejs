@@ -1,17 +1,22 @@
-<header>
-    <div class="head">
-        <h1 class="head1">Online </h1>
-        <h1 class="head2"> Auction</h1>
-    </div>
-    <div class="search">
-        <input type="search" id="search-bar" placeholder="Search...">
-        <button id="search-btn">Search</button>
-    </div>
-</header>
-<nav>
-    <a href="/" class="home-tag" ">Home</a>
-    <a href="/category" class="category-tag" onclick="location.href='categories.html';">Categories</a>
-    <a href="/users/profile" class="account-tag" onclick="location.href='myAccount.html';">My Account</a>
-    <a class="out-tag" href="/users/logout" onclick="location.href='Login_Org.html';">Sign Out</a>
-    
-</nav>
+<div class="top-header">
+    <header>
+        <div class="head">
+            <h1 class="head1">Online </h1>
+            <h1 class="head2"> Auction</h1>
+        </div>
+        <div class="search">
+            <form name="search" method="get" action="/search">
+                <input type="search" id="search-bar"  name="q" placeholder="Search...">
+                <button id="search-btn"  type ="submit" >Search</button>
+            </form>
+        </div>
+    </header>
+    <nav>
+        <a href="/" class="home-tag" ">Home</a>
+        <a href="/category" class="category-tag" onclick="location.href='categories.html';">Categories</a>
+        <a href="/users/profile" class="account-tag" onclick="location.href='myAccount.html';">My Account</a>
+        <a class="out-tag" href="/users/logout" onclick="location.href='Login_Org.html';">Sign Out</a>
+        
+    </nav>
+
+</div>

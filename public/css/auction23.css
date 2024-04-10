@@ -1,9 +1,15 @@
 
+
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
+}
+.top-header {
+    position: sticky;
+    top: 0px;
 }
 header {
     background-color: #333;
@@ -11,6 +17,7 @@ header {
     padding: 10px 0;
     text-align: center;
     display: flex;
+    position :static;
     flex-direction: row;
     justify-content: space-around;
     
@@ -39,6 +46,7 @@ h1 {
 .CountDown {
     font-size: 16px; /* Set the font size */
     font-weight: bold;
+    
     color: #1f0202; /* Set the text color to white */
     margin-top: 20px; /* Add some top margin for spacing */
     padding: 10px; /* Add padding to the container box */
@@ -85,6 +93,8 @@ nav {
     text-align: center;
     display: flex;
     justify-content: space-between ;
+   /*  position: sticky;
+    top : 0px; */
 }
 
 
@@ -116,7 +126,7 @@ nav a:hover {
     border-bottom: 1px solid #ccc;
     padding: 10px 0;
     display: flex;
-    
+    justify-content :space-between;
     align-items: center;
 }
 
@@ -165,6 +175,7 @@ img{
 
 .head{
     display: flex;
+    
 }
 .head2{
     color: #fff;   
@@ -177,8 +188,7 @@ img{
 .category-title{
     color: #f1b607;
     display: block;
-    margin-left: 550px;
-    margin-top: 5px;
+    margin: 5px 45% 5px 45%;
     padding: 5px;
 }
 
@@ -349,16 +359,16 @@ img{
 .profile-sell-buy{
     width: 100%;
     display: flex;
-    justify-content:space-between ;
+    justify-content :space-around ;
 }
 
 .profile-sellForm button, .profile-product button{
-    width: 500px;
+    padding: 0 4rem 0 4rem;
     height: 40px;
     color: #333;
     background-color: #f5f5f5;
     border-radius: 50px;
-    box-sizing: border-box;
+    box-sizing: content-box;
     margin: 10px 25px 10px 25px;
 }
 
@@ -463,4 +473,20 @@ img{
     text-align: center;
     border: 1px solid #333;
     border-radius: 10px;
+}
+
+#detail-amount
+{
+    height: 30px;
+    width: 500px;
+    margin: 5px;
+    
+}
+
+.place-bid-btn
+{
+    height: 20px;
+    margin: 5px;
+    border-radius: 50px;
+    box-sizing: content-box;
 }

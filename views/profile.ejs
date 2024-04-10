@@ -28,72 +28,23 @@
             <div class="profile-sellForm">
                 <button onclick="location.href='/users/sell';">Sell a Product</button>
             </div>
-            
+            <div class="profile-sellForm">
+                <button onclick="showMyProducts()">My Product List</button>
+            </div>
+            <div class="profile-sellForm hidden">
+                <button onclick="showMyBids()">Your Bids</button>
+            </div>
             <div class="profile-product">
                 <button onclick="location.href='/';">Buy a Product</button>        
             </div>
         </div>
 
-        <div class="profile-list">
-            <h2 class="profile-list-title">Product List</h2>
-            <% if(myProducts.length > 0){ %>
-                <% for(const product of myProducts) { %>
-                    <div class="auction-item">
-                        <% if(product.prodimg){ %>
-                        <img src="<%= product.prodimg%>" alt="<%= product.prodname%>"/>
-                        <% } %>
-                        <div>
-                            <p class="item-name"><%= product.prodname%></p>
-                            <!-- <div class="CountDown" id="remaining-time-<%= product.auctionid %>"> Remaining Time : <%= product.endtime %>  </div> -->
-                            <div class="CountDown" id="remaining-time-<%= product.auctionid %>">
-                                <span id="days-<%= product.auctionid %>"></span> <label>Days</label> :
-                                <span id="hours-<%= product.auctionid %>"></span> <label>Hrs</label> :
-                                <span id="minutes-<%= product.auctionid %>"></span> <label>Min</label> :
-                                <span id="seconds-<%= product.auctionid %>"></span> <label>Sec</label>
-                            </div>
-                            <p>Highest Bid : <%= product.highestbid %> </p>
-                            <button class="btn" onclick="location.href='/products?id=<%= product.auctionid%>'" > Bid Now</button>
-                        </div>
-                        <script  >
-                            
-                            const endTime<%= product.auctionid %> = new Date('<%= product.endtime %>');
-            
-                            
-                            function updateRemainingTime<%= product.auctionid %>() {
-                                const daysElement = document.getElementById('days-<%= product.auctionid %>');
-                                const hoursElement = document.getElementById('hours-<%= product.auctionid %>');
-                                const minutesElement = document.getElementById('minutes-<%= product.auctionid %>');
-                                const secondsElement = document.getElementById('seconds-<%= product.auctionid %>');
-    
-                                const endTime<%= product.auctionid %> = new Date('<%= product.endtime %>');
-                                const now = new Date();
-                                let remainingTime = endTime<%= product.auctionid %> - now;
-    
-                                if (remainingTime < 0) {
-                                    remainingTime = 0;
-                                }
-    
-                                const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-                                const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-                                const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-    
-                                daysElement.textContent = `${days}`;
-                                hoursElement.textContent = `${hours}`;
-                                minutesElement.textContent = `${minutes}`;
-                                secondsElement.textContent = `${seconds}`;
-                            }
-                            // Update remaining time every second
-                            setInterval(updateRemainingTime<%= product.auctionid %>, 1000);
-                            // Initial call to update time immediately when page loads
-                            updateRemainingTime<%= product.auctionid %>(); 
-                       
-                        </script>
-                    </div>
-                <% } %>
-            <% } else {%>
-                <h4> No Products Added for Auction/Sale </h4>
-            <% } %>
+        <div class="profile-list " id="target">
+            <%- include('productlist') -%>
+        </div>
+        <div class="profile-list hidden" id="target">
+            <%- include('mybids') -%>
+        </div>
     </div>
 
 
@@ -104,6 +55,10 @@
         <p><span>Mobile Number : </span> <a href="#">78524645621</a> </p>
     </div>
 
+    
+    <script>
+       
+    </script>
 
 </body>
 </html>
