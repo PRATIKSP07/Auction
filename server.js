@@ -142,7 +142,7 @@ app.get("/products",checkNotAuthenticated,async (req,res) => {
     // console.log(res.msg,"BACKEND")
     res.render("product",{ product : product_details ,userId : req.user.id,msg : msg });
   }
-
+///vsfhulildshudshildgfyudcidgckuydicuk
 });
 app.post("/products",checkNotAuthenticated, async (req,res) => {
     const { bidAmount }=req.body ;
